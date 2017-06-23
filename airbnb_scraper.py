@@ -153,26 +153,16 @@ def read_asin():
             sleep(60)# wait one minute
 
 def search(city, min_comments=1, max_articles=10):
-    search_url = "https://www.airbnb.fr/s/"+city#+"/homes?allow_override%5B%5D=&ne_lat=43.36031154770743&ne_lng=5.561215391145311&search_by_map=true&sw_lat=43.094669348551946&sw_lng=5.335995664582811&zoom=12&s_tag=x3czhqn_"
+    search_url = "https://www.airbnb.fr/s/"+city
     driver.get(search_url)
-    # number_comments = driver.find_elements(By.XPATH, '//div[@class="ratingContainer_inline_36rlri"]/span[0]')
     try:
         close_popup = driver.find_element(By.XPATH, '//div[@class="responsiveCloseButton_1y33c39"]//button[@class="container_1rp5252"]')
         close_popup.click()
     except:
         pass
-    # <div class="responsiveCloseButton_1y33c39"><div style="margin-bottom: 24px;"><button aria-haspopup="false" aria-expanded="false" class="container_1rp5252" type="button" style="padding: 0px;"><svg viewBox="0 0 24 24" role="img" aria-label="Fermer" focusable="false" style="display: block; fill: rgb(118, 118, 118); height: 16px; width: 16px;"><path fill-rule="evenodd" d="M23.25 24a.744.744 0 0 1-.53-.22L12 13.062 1.28 23.782a.75.75 0 0 1-1.06-1.06L10.94 12 .22 1.28A.75.75 0 1 1 1.28.22L12 10.94 22.72.22a.749.749 0 1 1 1.06 1.06L13.062 12l10.72 10.72a.749.749 0 0 1-.53 1.28"></path></svg></button></div></div>
-    # <button aria-haspopup="false" aria-expanded="false" class="container_1rp5252" type="button" style="padding: 0px;"><svg viewBox="0 0 24 24" role="img" aria-label="Fermer" focusable="false" style="display: block; fill: rgb(118, 118, 118); height: 16px; width: 16px;"><path fill-rule="evenodd" d="M23.25 24a.744.744 0 0 1-.53-.22L12 13.062 1.28 23.782a.75.75 0 0 1-1.06-1.06L10.94 12 .22 1.28A.75.75 0 1 1 1.28.22L12 10.94 22.72.22a.749.749 0 1 1 1.06 1.06L13.062 12l10.72 10.72a.749.749 0 0 1-.53 1.28"></path></svg></button>
     i_articles = 0
     l_asin = list()
     df_asin = pd.DataFrame()
-
-    # for offer in offers:
-    #     n_comments = int( offer.text.split("\n")[-1].replace(" commentaires","") )
-    #     o_asin = offer.get_attribute('href').replace("https://www.airbnb.fr/rooms/","").replace("?location="+city, "")
-    #     if n_comments >= min_comments and i_articles < max_articles: 
-    #         l_asin.append(o_asin)
-    #         i_articles+=1
 
     pages = driver.find_elements(By.XPATH, '//a[@class="link_1ko8une"]')
     iMaxPages = int( pages[-2].text )
@@ -237,23 +227,12 @@ def search(city, min_comments=1, max_articles=10):
 
 if __name__ == "__main__":
     # init_driver()
-    # read_asin() # to scrap from list of asin
+    # read_asin() # to scrap from external list of asin (one per line)
 
     search("Paris", min_comments=10, max_articles=10) # to search and dynamically create list of asin, then scrap it
-    # search("Marseille", min_comments=10, max_articles=400)
-    # search("Orléans", min_comments=10, max_articles=400)
-    # search("Lyon", min_comments=10, max_articles=400)
-    # search("Bordeaux", min_comments=10, max_articles=400)
-    # search("Toulouse", min_comments=10, max_articles=400)
-    # search("Nancy", min_comments=10, max_articles=400)
-    # search("Grenoble", min_comments=10, max_articles=400)
-    # search("Strasbourg", min_comments=10, max_articles=400)
-    # search("Brest", min_comments=10, max_articles=400)
-    # search("Montpellier", min_comments=10, max_articles=400)
 
     
-
+    # example using asin directly
     # selenium_airbnb("13253")
-    # selenium_airbnb("6257130")
     driver.close()
     driver.quit()
